@@ -11,6 +11,21 @@ function App() {
   return (
     <>
       <Navbar/>
+        <div className='container md:mx-auto my-5 p-5 bg-violet-100 rounded-xl min-h-[80vh] md:w-[35%]'>
+          <h1 className='font-bold text-center text-3xl'>iTask-Manage Your Todo at One Place</h1>
+
+          <div className='AddTodo my-5 flex flex-col gap-4'>
+          <h2 className='text-2xl font-bold'>Add a Todo</h2>
+          <div className='flex'>
+            <input type="text" className='w-full rounded-full bg-white px-5 py-5' />
+            <button>Save</button>
+          </div>
+          </div>
+          <input type="checkbox" />
+          <label htmlFor="show">Show Finished</label>
+          <h2>Your Todos</h2>
+
+        </div>
     </>
   )
 }
