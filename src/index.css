@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+.btn{
+    @apply text-white bg-violet-800 hover:bg-violet-950 p-4 py-2 rounded-full text-sm font-bold 
+}
+
