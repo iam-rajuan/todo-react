@@ -4,8 +4,12 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Navbar from "./components/Navbar";
 
+import { v4 as uuidv4 } from 'uuid';
+
 function App() {
 
+  const [todo, setTodo] = useState("")
+  const [todos, setTodos] = useState([])
 
   
 
@@ -16,9 +20,29 @@ function App() {
 
   }
   const handleAdd = ()=> {
-    setTodos([...todos, {todo, isCompleted: false}])
+    setTodos([...todos, {id: uuidv4(), todo, isCompleted: false}])
+    setTodo("")
+
 
   }
+  const handleChange = (e)=> {
+    setTodo(e.target.value)
+    // console.log(todo);
+    
+  }
+
+  const handleCheckbox = (e) => {
+    let id = e.target.name
+    let index = todos.findIndex(item=>{
+       return item.id === id
+    })
+    let newTodos =  [...todos];
+    newTodos[index].isCompleted = !newTodos[index].isCompleted
+    setTodos(newTodos)
+  }
+  
+  
+
 
   return (
     <>
@@ -31,7 +55,8 @@ function App() {
           <h2 className="text-lg font-bold">Add a Todo</h2>
 
         <div className="flex gap-3">
-          <input type="text" className="bg-white w-full rounded-full px-5 py-1"/>
+          <input onChange={handleChange} value={todo} type="text" className="bg-white w-full rounded-full px-5 py-1"/>
+
           <button onClick={handleAdd} className="btn">
             Save
           </button>
@@ -40,13 +65,20 @@ function App() {
         <h2 className="text-lg font-bold">Your Todos</h2>
 
         <div className="todos">
-          <div className="todo flex justify-between">
-            <div className="text">...</div>
-            <div className="button flex gap-4">
+          {todos.map(item=>{
+
+            return <div key={item.id} className="todo flex my-3 justify-between">
+
+            <input name={item.id} onChange={handleCheckbox}  type="checkbox" checked={item.isCompleted}  id="" />
+
+            <div className={item.isCompleted? "line-through":""} > {item.todo} </div>
+            <div className="button flex gap-4 ">
               <button onClick={handleEdit} className="btn">Edit</button>
               <button onClick={handleDelete} className="btn">delete</button>
             </div>
           </div>
+          })}
+
         </div>
       </div>
     </>
