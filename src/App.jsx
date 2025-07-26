@@ -57,7 +57,7 @@ function App() {
         <div className="flex gap-3">
           <input onChange={handleChange} value={todo} type="text" className="bg-white w-full rounded-full px-5 py-1"/>
 
-          <button onClick={handleAdd} className="btn">
+          <button onClick={handleAdd} className="btn ">
             Save
           </button>
         </div>
