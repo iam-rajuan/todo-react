@@ -91,9 +91,9 @@ function App() {
           <h2 className="text-lg font-bold">Add a Todo</h2>
 
         <div className="flex gap-3">
-          <input onChange={handleChange} value={todo} type="text" className="bg-white w-full rounded-full px-5 py-1"/>
+          <input onChange={handleChange} value={todo} type="text" className="bg-violet-50 w-full rounded-full px-5 py-1"/>
 
-          <button onClick={handleAdd} className="btn ">
+          <button onClick={handleAdd} disabled={todo.length<=0} className="btn ">
             Save
           </button>
         </div>
@@ -104,7 +104,7 @@ function App() {
         <input onChange={toggleFinished}  type="checkbox" checked={showFinished}  id="show" />
         <label className="gap-3" htmlFor="show">Show Finished Todos</label>
         </div>
-
+        <div className="h-[1px] bg-black opacity-15 w-[90] mx-auto my-2"></div>
 
         <div className="todos">
           {todos.length===0 && <div className="m-5">No Todos to Display</div>}
