@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -15,12 +15,24 @@ function App() {
   const [todos, setTodos] = useState([])
   const [showFinished, setshowFinished] = useState()
 
+  useEffect(() => {
+    let todoString = localStorage.getItem("todos")
+    if(todoString){
+      let todos = JSON.parse(localStorage.getItem("todos"))
+      setTodos(todos)
+    }
+  }, [])
+  
+
+  const saveToLs = (params) => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }
+  
   const toggleFinished = () => {
     setshowFinished(!showFinished)
     console.log(showFinished);
     
   }
-  
 
   const handleEdit = (e, id)=> {
     let t = todos.filter(i=>i.id === id)
@@ -30,6 +42,7 @@ function App() {
       return item.id !== id
     })
     setTodos(newTodos)
+    saveToLs()
 
   }
   const handleDelete = (e, id)=> {
@@ -38,13 +51,12 @@ function App() {
       return item.id !== id
     })
     setTodos(newTodos)
-
+    saveToLs()
   }
   const handleAdd = ()=> {
     setTodos([...todos, {id: uuidv4(), todo, isCompleted: false}])
     setTodo("")
-
-
+    saveToLs()
   }
   const handleChange = (e)=> {
     setTodo(e.target.value)
@@ -62,6 +74,7 @@ function App() {
     let newTodos =  [...todos];
     newTodos[index].isCompleted = !newTodos[index].isCompleted
     setTodos(newTodos)
+    saveToLs()
   }
   
   
