@@ -4,19 +4,40 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Navbar from "./components/Navbar";
 
+import { FaEdit } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
+
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
 
   const [todo, setTodo] = useState("")
   const [todos, setTodos] = useState([])
+  const [showFinished, setshowFinished] = useState()
 
+  const toggleFinished = () => {
+    setshowFinished(!showFinished)
+    console.log(showFinished);
+    
+  }
   
 
-  const handleEdit = ()=> {
+  const handleEdit = (e, id)=> {
+    let t = todos.filter(i=>i.id === id)
+    setTodo(t[0].todo)
+
+    let newTodos = todos.filter(item=>{
+      return item.id !== id
+    })
+    setTodos(newTodos)
 
   }
-  const handleDelete = ()=> {
+  const handleDelete = (e, id)=> {
+    // let id = e.target.name
+    let newTodos = todos.filter(item=>{
+      return item.id !== id
+    })
+    setTodos(newTodos)
 
   }
   const handleAdd = ()=> {
@@ -36,6 +57,8 @@ function App() {
     let index = todos.findIndex(item=>{
        return item.id === id
     })
+    // console.log( `this is: ${index}` );
+    
     let newTodos =  [...todos];
     newTodos[index].isCompleted = !newTodos[index].isCompleted
     setTodos(newTodos)
@@ -63,18 +86,28 @@ function App() {
         </div>
 
         <h2 className="text-lg font-bold">Your Todos</h2>
+        
+        <div className="flex gap-3">
+        <input onChange={toggleFinished}  type="checkbox" checked={showFinished}  id="show" />
+        <label className="gap-3" htmlFor="show">Show Finished Todos</label>
+        </div>
+
 
         <div className="todos">
+          {todos.length===0 && <div className="m-5">No Todos to Display</div>}
           {todos.map(item=>{
 
-            return <div key={item.id} className="todo flex my-3 justify-between">
+            return (showFinished || !item.isCompleted) && <div key={item.id} className="todo flex my-3 justify-between">
 
+            <div className="flex gap-3 ">
             <input name={item.id} onChange={handleCheckbox}  type="checkbox" checked={item.isCompleted}  id="" />
-
             <div className={item.isCompleted? "line-through":""} > {item.todo} </div>
-            <div className="button flex gap-4 ">
-              <button onClick={handleEdit} className="btn">Edit</button>
-              <button onClick={handleDelete} className="btn">delete</button>
+            </div>
+
+            <div className="button flex gap-4 h-full">
+
+              <button onClick={(e)=>handleEdit(e, item.id)} className="btn"><FaEdit /></button>
+              <button onClick={(e)=>handleDelete(e, item.id)} className="btn"><AiFillDelete /></button>
             </div>
           </div>
           })}
